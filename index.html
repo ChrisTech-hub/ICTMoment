@@ -9,6 +9,8 @@
     }
     body {
       background: #000;
+      margin: 0;
+      font-family: sans-serif;
     }
     header {
       background: #fff;
@@ -18,7 +20,6 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      border: none;
       border-radius: 10px;
       box-shadow: 0 0 5px 0 #000;
     }
@@ -27,16 +28,16 @@
       padding: 0;
       color: #000;
     }
-  header p{
-    margin: 0;
-    padding: 0;
-  }
-  h3{
-    margin: 5px;
-    padding: 0;
-    color: #000;
-    text-decoration: underline;
-  }
+    header p {
+      margin: 0;
+      padding: 0;
+    }
+    h3 {
+      margin: 5px;
+      padding: 0;
+      color: #000;
+      text-decoration: underline;
+    }
     .video-display {
       width: 100%;
       height: 300px;
@@ -45,7 +46,6 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      border: none;
       border-radius: 10px;
       box-shadow: 0 0 5px 0 #000;
     }
@@ -55,7 +55,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border: none;
       border-radius: 5px;
       box-shadow: 0 0 5px 0 #000;
     }
@@ -72,71 +71,90 @@
       background: #fff;
       display: flex;
       justify-content: center;
-      border: none;
       border-radius: 10px;
       box-shadow: 0 0 5px 0 #000;
       overflow-x: hidden;
       overflow-y: auto;
+      flex-wrap: wrap;
     }
-		
+    img {
+      width: calc(50% - 20px);
+      height: 100px;
+      object-fit: cover;
+      border: none;
+      margin: 10px;
+      box-shadow: 0 1px 1px 1px red;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  
+
   <section class="video-display">
     <div class="video-container">
-      <iframe id="videos" allow='autoplay'></iframe>
-     </div>
-    <h3 id='description'></h3>
+      <iframe id="videos" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    <h3 id="description"></h3>
   </section>
-  
-  <header>
+	
+<header>
     <h1>ICT MOMENTS</h1>
-    <p>-Scroll and click the videos at the bottom.</p>
+    <p>- Scroll and click the videos at the bottom.</p>
   </header>
-  
+	
   <section class="video-selection">
     <div id="videoSelect"></div>
   </section>
+
   <script>
-const videos = [
-  {id: 0, video: 'https://drive.google.com/file/d/1_iIv9hymWJde85qZxOLJ0qMBeYUoHcr5/preview', description: 'NCII Journey part. 2'},
-  {id: 1, video: 'https://drive.google.com/file/d/1P6ti4hy5oNWg3NcLlmphCMyOKgfQ8IPR/preview', description: 'NCII Journey part. 3'},
-  {id: 2, video: 'https://drive.google.com/file/d/1ywnersQQohsJhw0G3cnHETG6IukOISRn/preview', description: 'Rag Scripted huhu'},
-  {id: 3, video: 'https://drive.google.com/file/d/1AIqty_Oxu6PcZZdlgV007JG0_ftOvPLZ/preview', description: 'Meow?'},
-  {id: 4, video: 'https://drive.google.com/file/d/1qtz_U_Dx6A-_s00_gGTTt0ixg5e8Vyjq/preview', description: 'Patientero'},
-  {id: 5, video: 'https://drive.google.com/file/d/1Za-tqV3ocfw-1uNON0kNYxgDzMrdVW87/preview', description: 'NCII Journey part.1'}
-];
+    const videos = [
+      {id: 0, video: 'https://drive.google.com/file/d/1_iIv9hymWJde85qZxOLJ0qMBeYUoHcr5/preview', description: 'NCII Journey part. 2'},
+      {id: 1, video: 'https://drive.google.com/file/d/1P6ti4hy5oNWg3NcLlmphCMyOKgfQ8IPR/preview', description: 'NCII Journey part. 3'},
+      {id: 2, video: 'https://drive.google.com/file/d/1ywnersQQohsJhw0G3cnHETG6IukOISRn/preview', description: 'Rag Scripted huhu'},
+      {id: 3, video: 'https://drive.google.com/file/d/1AIqty_Oxu6PcZZdlgV007JG0_ftOvPLZ/preview', description: 'Meow?'},
+      {id: 4, video: 'https://drive.google.com/file/d/1qtz_U_Dx6A-_s00_gGTTt0ixg5e8Vyjq/preview', description: 'Patientero'},
+      {id: 5, video: 'https://drive.google.com/file/d/1Za-tqV3ocfw-1uNON0kNYxgDzMrdVW87/preview', description: 'NCII Journey part.1'}
+    ];
 
-const videoElement = document.getElementById('videos');
-const descriptionElement = document.getElementById('description');
-const videoSelectElement = document.getElementById('videoSelect');
+    const videoElement = document.getElementById('videos');
+    const descriptionElement = document.getElementById('description');
+    const videoSelectElement = document.getElementById('videoSelect');
 
-videos.forEach((video) => {
-  const fileId = video.video.match(/\/d\/(.+?)\//)[1];
-  const thumbnailUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
-  const thumbnail = document.createElement('img');
-  thumbnail.src = thumbnailUrl;
-  thumbnail.style.width = 'calc(50% - 20px)';
-  thumbnail.style.height = '100px';
-  thumbnail.style.objectFit = 'cover';
-  thumbnail.style.border = 'none';
-  thumbnail.style.boxShadow = '0 1px 1px 1px red';
-  thumbnail.style.margin = '10px';
-  thumbnail.addEventListener('click', () => {
-    videoElement.src = `https://drive.google.com/file/d/${fileId}/preview?autoplay=1`;
-    descriptionElement.textContent = video.description;
-    thumbnail.style.boxShadow = '0 1px 1px 1px green';
-  });
-  videoSelectElement.appendChild(thumbnail);
-});
+    videos.forEach((video, index) => {
+      const fileId = video.video.match(/\/d\/(.+?)\//)[1];
+      const thumbnailUrl = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
+      const thumbnail = document.createElement('img');
 
-if (videos.length > 0) {
-  const fileId = videos[0].video.match(/\/d\/(.+?)\//)[1];
-  videoElement.src = `https://drive.google.com/file/d/${fileId}/preview?autoplay=1`;
-  descriptionElement.textContent = videos[0].description;
-	  }
-	  
+      thumbnail.src = thumbnailUrl;
+      thumbnail.alt = video.description;
+      thumbnail.title = video.description;
+
+      // Fallback image if thumbnail fails to load
+      thumbnail.onerror = () => {
+        thumbnail.src = 'https://via.placeholder.com/200x100?text=No+Thumbnail';
+      };
+
+      thumbnail.addEventListener('click', () => {
+        // Reset all thumbnails
+        const allThumbs = document.querySelectorAll('#videoSelect img');
+        allThumbs.forEach(img => img.style.boxShadow = '0 1px 1px 1px red');
+
+        // Play selected video
+        videoElement.src = `https://drive.google.com/file/d/${fileId}/preview?autoplay=1`;
+        descriptionElement.textContent = video.description;
+        thumbnail.style.boxShadow = '0 1px 1px 1px green';
+      });
+
+      videoSelectElement.appendChild(thumbnail);
+
+      // Auto-select first video and highlight it
+      if (index === 0) {
+        videoElement.src = `https://drive.google.com/file/d/${fileId}/preview?autoplay=1`;
+        descriptionElement.textContent = video.description;
+        thumbnail.style.boxShadow = '0 1px 1px 1px green';
+      }
+    });
   </script>
+
 </body>
 </html>
